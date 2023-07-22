@@ -32,5 +32,35 @@ public class BookStoreService {
 
         return listOfBooks;
     }
+
+    public List<Book> getAllBooks() {
+        return bookStoreRepository.findAll();
+    }
+
+    public Book getBookById(Long id) {
+        return bookStoreRepository.findById(id).orElse(null);
+    }
+
+    public Book addBook(Book book) {
+       return bookStoreRepository.save(book);
+    }
+
+    public Book updateBookById(Long id, Book book) {
+        if(getBookById(id) != null) {
+            book.setId(id);
+            return bookStoreRepository.save(book);
+        } else {
+            return null;
+        }
+    }
+
+    public boolean deleteBookById(Long id) {
+        if(getBookById(id) != null) {
+            bookStoreRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
