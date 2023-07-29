@@ -5,16 +5,31 @@ import com.bookstore.onlineBookStore.service.BookStoreServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@org.springframework.web.bind.annotation.RestController
+@Controller
 @RequestMapping("/books")
 public class BookStoreController {
 
     @Autowired
     BookStoreServiceImpl bookStoreServiceImpl;
+
+    @GetMapping("/index")
+    public String homePage(Model model) {
+
+        return "index";
+    }
+
+    @GetMapping("/")
+    public String home(Model model) {
+        List<Book> books = bookStoreServiceImpl.getAllBooks();
+        model.addAttribute("books", books);
+        return "home";
+    }
 
     /**
      * Get List of all book in the database.

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Bookstore</title>
+</head>
+<body>
+<h1>Online Bookstore</h1>
+
+<h2>Books</h2>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>ISBN</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <!-- Use Thymeleaf loop to display the list of books -->
+    <tr th:each="book : ${books}">
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.genre}"></td>
+        <td th:text="${book.isbn}"></td>
+        <td><a th:href="@{/edit/{id}(id=${book.id})}">Edit</a></td>
+        <td><a th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
+    </tr>
+</table>
+
+<h2>Add New Book</h2>
+<form th:action="@{/add}" method="post">
+    <label>Title:</label>
+    <input type="text" name="title" required><br>
+
+    <label>Author:</label>
+    <input type="text" name="author" required><br>
+
+    <label>Genre:</label>
+    <input type="text" name="genre"><br>
+
+    <label>ISBN:</label>
+    <input type="text" name="isbn" required><br>
+
+    <button type="submit">Add Book</button>
+</form>
+</body>
+</html>
