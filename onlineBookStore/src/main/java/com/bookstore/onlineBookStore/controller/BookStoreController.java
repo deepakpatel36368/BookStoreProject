@@ -14,7 +14,7 @@ import java.util.List;
 public class BookStoreController {
 
     @Autowired
-    private BookStoreServiceImpl bookStoreServiceImpl;
+    BookStoreServiceImpl bookStoreServiceImpl;
 
     /**
      * Get List of all book in the database.
@@ -28,10 +28,10 @@ public class BookStoreController {
      * Get book by Id.
      **/
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Integer id) {
+    public ResponseEntity<?> getBookById(@PathVariable Integer id) {
         Book book = bookStoreServiceImpl.getBookById(id);
         if(book == null) {
-            return new ResponseEntity<>(book, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Book with Book-Id " + id + " not found.", HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(book, HttpStatus.OK);
         }
@@ -41,7 +41,7 @@ public class BookStoreController {
      * Add book into the database.
      **/
     @PostMapping
-    public ResponseEntity<Book> addBook(@RequestBody Book book) {
+    public ResponseEntity<?> addBook(@RequestBody Book book) {
          bookStoreServiceImpl.addBook(book);
          return new ResponseEntity<>(book, HttpStatus.OK);
     }
@@ -50,8 +50,12 @@ public class BookStoreController {
      * Edit the book by id.
      **/
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updteBookbyId(@PathVariable Integer id, @RequestBody Book book) {
+    public ResponseEntity<?> updteBookbyId(@PathVariable Integer id, @RequestBody Book book) {
         Book book1 = bookStoreServiceImpl.updateBookById(id, book);
-        return  null;
+        if (book == null) {
+            return new ResponseEntity<>("Book with Id " + id + " does not exist.", HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(book1, HttpStatus.OK);
+        }
     }
 }
